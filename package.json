@@ -1,0 +1,47 @@
+{
+  "name": "ens160-sensor",
+  "version": "1.0.0",
+  "description": "A Node.js I2C module for the Adafruit ENS160 ENS160 MOX Gas Sensor.",
+  "main": "ENS160.js",
+  "scripts": {
+    "build": "tsc",
+    "release": "npx release-it",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ludufre/ens160-sensor.git"
+  },
+  "keywords": [
+    "ENS160",
+    "MOX",
+    "CO2",
+    "eCO2",
+    "TVOC",
+    "AQI",
+    "Gas",
+    "Sensor",
+    "Adafruit",
+    "Raspberry",
+    "Pi"
+  ],
+  "author": "Luan Freitas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ludufre/ens160-sensor/issues"
+  },
+  "homepage": "https://github.com/ludufre/ens160-sensor#readme",
+  "dependencies": {
+    "i2c-bus": "^5.2.3",
+    "@types/i2c-bus": "^5.1.0",
+    "@types/node": "^20.8.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    }
+  }
+}
