@@ -1,6 +1,6 @@
 # ens160-sensor
 
-A Node.js I2C module for the Adafruit ENS160 MOX Gas Sensor, inspired on [ath-sensor](https://github.com/thomome/aht20-sensor).
+A Node.js I2C module for the Adafruit ENS160 MOX Gas Sensor, inspired on [aht20-sensor](https://github.com/thomome/aht20-sensor).
 
 ## Installation
 ```
