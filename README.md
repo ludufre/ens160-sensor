@@ -9,7 +9,7 @@ npm install ens160-sensor
 
 ## Example
 ```js
-const { default: ENS160 } = require('./ENS160');
+const { default: ENS160 } = require('ens160-sensor');
 
 ENS160.open()
   .then(async (sensor) => {
