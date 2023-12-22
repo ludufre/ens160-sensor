@@ -91,8 +91,8 @@ export default class ENS160 {
 
       await this.setMode(MODE_STANDARD);
 
-      await this.temperature_compensation(25.5);
-      await this.humidity_compensation(51);
+      await this.temperature_compensation(25);
+      await this.humidity_compensation(50);
 
       return true;
     } catch (err) {
@@ -272,7 +272,12 @@ export default class ENS160 {
       const k64 = Math.ceil((temp_c + 273.15) * 64.0);
       const buf = Buffer.from(k64.toString(16), "hex");
 
-      await this.bus.writeI2cBlock(ENS160_I2CADDR, ENS160_CMD_TEMPIN, 2, buf);
+      await this.bus.writeI2cBlock(
+        ENS160_I2CADDR,
+        ENS160_CMD_TEMPIN,
+        buf.length,
+        buf
+      );
 
       return true;
     } catch (err) {
@@ -294,9 +299,9 @@ export default class ENS160 {
         Buffer.alloc(2)
       );
 
-      const be = measurement.buffer.readIntBE(0, measurement.bytesRead);
+      const be = Buffer.from(measurement.buffer, 16).readUInt16BE(0);
 
-      return parseInt((be / 64.0 - 273.15).toFixed(1));
+      return Number(((be / 64.0) - 273.15).toFixed(1));
     } catch (err) {
       throw err;
     }
@@ -340,9 +345,9 @@ export default class ENS160 {
         Buffer.alloc(2)
       );
 
-      const be = measurement.buffer.readIntBE(0, measurement.bytesRead);
+      const be = Buffer.from(measurement.buffer, 16).readUInt16BE(0);
 
-      return parseInt((be / 512).toFixed(1));
+      return Number((be / 512).toFixed(1));
     } catch (err) {
       throw err;
     }
