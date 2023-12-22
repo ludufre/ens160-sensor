@@ -1,6 +1,6 @@
 {
   "name": "ens160-sensor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Node.js I2C module for the Adafruit ENS160 ENS160 MOX Gas Sensor.",
   "main": "ENS160.js",
   "scripts": {
