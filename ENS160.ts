@@ -436,17 +436,17 @@ export default class ENS160 {
       const opmode = bin.substring(0, 1) === "1";
       const error = bin.substring(1, 2) === "1";
       let status: StatusType = "invalid";
-      switch (parseInt(bin.substring(4, 5))) {
-        case 0:
+      switch (bin.substring(4, 6)) {
+        case "00":
           status = "normal";
           break;
-        case 1:
+        case "01":
           status = "warmup";
           break;
-        case 2:
+        case "10":
           status = "startup";
           break;
-        case 3:
+        case "11":
           status = "invalid";
           break;
       }
