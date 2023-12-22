@@ -90,8 +90,8 @@ class ENS160 {
                 yield this.setMode(MODE_IDLE);
                 yield this.clear_command();
                 yield this.setMode(MODE_STANDARD);
-                yield this.temperature_compensation(25.5);
-                yield this.humidity_compensation(51);
+                yield this.temperature_compensation(25);
+                yield this.humidity_compensation(50);
                 return true;
             }
             catch (err) {
@@ -239,7 +239,7 @@ class ENS160 {
             try {
                 const k64 = Math.ceil((temp_c + 273.15) * 64.0);
                 const buf = Buffer.from(k64.toString(16), "hex");
-                yield this.bus.writeI2cBlock(ENS160_I2CADDR, ENS160_CMD_TEMPIN, 2, buf);
+                yield this.bus.writeI2cBlock(ENS160_I2CADDR, ENS160_CMD_TEMPIN, buf.length, buf);
                 return true;
             }
             catch (err) {
@@ -256,8 +256,8 @@ class ENS160 {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const measurement = yield this.bus.readI2cBlock(ENS160_I2CADDR, ENS160_CMD_T, 2, Buffer.alloc(2));
-                const be = measurement.buffer.readIntBE(0, measurement.bytesRead);
-                return parseInt((be / 64.0 - 273.15).toFixed(1));
+                const be = Buffer.from(measurement.buffer, 16).readUInt16BE(0);
+                return Number(((be / 64.0) - 273.15).toFixed(1));
             }
             catch (err) {
                 throw err;
@@ -292,8 +292,8 @@ class ENS160 {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const measurement = yield this.bus.readI2cBlock(ENS160_I2CADDR, ENS160_CMD_RH, 2, Buffer.alloc(2));
-                const be = measurement.buffer.readIntBE(0, measurement.bytesRead);
-                return parseInt((be / 512).toFixed(1));
+                const be = Buffer.from(measurement.buffer, 16).readUInt16BE(0);
+                return Number((be / 512).toFixed(1));
             }
             catch (err) {
                 throw err;
@@ -361,17 +361,17 @@ class ENS160 {
                 const opmode = bin.substring(0, 1) === "1";
                 const error = bin.substring(1, 2) === "1";
                 let status = "invalid";
-                switch (parseInt(bin.substring(4, 5))) {
-                    case 0:
+                switch (bin.substring(4, 6)) {
+                    case "00":
                         status = "normal";
                         break;
-                    case 1:
+                    case "01":
                         status = "warmup";
                         break;
-                    case 2:
+                    case "10":
                         status = "startup";
                         break;
-                    case 3:
+                    case "11":
                         status = "invalid";
                         break;
                 }
